@@ -36,7 +36,7 @@
     <div class="chat-popup show" id="chatPopup">
       <div class="chat-header">
         <h2>Chat with Us 💬</h2>
-        <button class="close-btn" id="closeChat">&times;</button>
+        <!-- Cross icon removed -->
       </div>
 
       <div id="chatbox">
@@ -81,13 +81,7 @@
       getBotResponse();
     });
 
-    // Close chat logic
-    const chatPopup = document.getElementById("chatPopup");
-    const closeChat = document.getElementById("closeChat");
-
-    closeChat.addEventListener("click", () => {
-      chatPopup.classList.remove("show");
-    });
+    // Removed close button logic
   </script>
 </body>
 </html>

@@ -8,13 +8,13 @@ body {
   line-height: 1.6;
 }
 
-/* Updated Container Layout */
+/* Layout Container */
 .container {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  gap: 30px; /* Reduced gap for tighter layout */
-  padding: 40px 30px; /* Slightly reduced padding */
+  gap: 30px;
+  padding: 40px 30px;
   flex-wrap: wrap;
 }
 
@@ -26,7 +26,7 @@ body {
 }
 
 .info-panel h1 {
-  font-size: 52px; /* Slightly larger for hierarchy */
+  font-size: 48px;
   font-weight: 700;
   margin-bottom: 20px;
 }
@@ -48,25 +48,24 @@ body {
   width: 220px;
   height: auto;
   display: block;
-  margin: 30px auto 0 auto; /* Reduced top margin */
+  margin: 30px auto 0;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   transition: transform 0.3s ease;
 }
+
 .chatbot-logo:hover {
   transform: scale(1.05);
 }
 
-/* Floating Chat */
+/* Chat Popup */
 .chat-popup {
   position: relative;
-  width: 350px;
+  width: 360px;
   background: #ffffff;
   border-radius: 15px;
-  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.25);
   overflow: hidden;
-  transform: scale(1);
-  opacity: 1;
   transition: all 0.4s ease;
   z-index: 100;
   color: #333;
@@ -76,8 +75,8 @@ body {
 .chat-header {
   background: #0072ff;
   color: #fff;
-  padding: 15px;
-  font-size: 20px; /* Slightly larger for emphasis */
+  padding: 15px 18px;
+  font-size: 20px;
   font-weight: 600;
   display: flex;
   justify-content: space-between;
@@ -86,23 +85,39 @@ body {
 
 /* Close Button */
 .close-btn {
-  background: none;
+  background: transparent;
   border: none;
   color: white;
-  font-size: 24px;
+  font-size: 26px;
   cursor: pointer;
-  transition: transform 0.3s;
-}
-.close-btn:hover {
-  transform: rotate(90deg);
+  line-height: 1;
+  transition: transform 0.3s ease, color 0.3s ease;
 }
 
-/* Chatbox */
+.close-btn:hover {
+  transform: rotate(90deg);
+  color: #ffcccc;
+}
+
+/* Chatbox Area */
 #chatbox {
   background: #f0f2f5;
   height: 320px;
   overflow-y: auto;
   padding: 15px;
+  scroll-behavior: smooth;
+}
+
+/* Scrollbar Customization */
+#chatbox::-webkit-scrollbar {
+  width: 8px;
+}
+#chatbox::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+#chatbox::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
 }
 
 /* Chat Bubbles */
@@ -131,7 +146,7 @@ body {
   clear: both;
 }
 
-/* Input Area */
+/* Input Section */
 #userInput {
   display: flex;
   padding: 10px;
@@ -161,11 +176,12 @@ body {
   cursor: pointer;
   transition: background 0.3s;
 }
+
 #buttonInput:hover {
   background: #0056d6;
 }
 
-/* Chat Toggle Icon */
+/* Floating Chat Toggle */
 .chat-toggle {
   position: fixed;
   bottom: 30px;
@@ -175,21 +191,55 @@ body {
   border-radius: 50%;
   width: 55px;
   height: 55px;
-  display: flex; /* Changed from none to flex for visibility */
+  display: flex;
   align-items: center;
   justify-content: center;
   font-size: 26px;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease;
-}
-.chat-toggle:hover {
-  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease, background 0.3s ease;
 }
 
-/* Accessibility Enhancements */
+.chat-toggle:hover {
+  transform: scale(1.1);
+  background: #0056d6;
+}
+
+/* Hide chat window on toggle */
+.chat-popup:not(.show) {
+  display: none;
+}
+
+/* Accessibility Improvement */
 .chatbot-logo::after {
   content: "Chatbot Logo";
   position: absolute;
   left: -9999px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    padding: 20px;
+    align-items: center;
+  }
+
+  .info-panel {
+    text-align: center;
+  }
+
+  .info-panel h1 {
+    font-size: 36px;
+  }
+
+  .chat-popup {
+    width: 95%;
+    max-width: 400px;
+  }
+
+  .chat-toggle {
+    right: 20px;
+    bottom: 20px;
+  }
 }

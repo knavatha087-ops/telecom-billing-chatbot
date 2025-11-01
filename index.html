@@ -18,38 +18,44 @@
 
   <div class="container">
     <!-- Info Section -->
-    <section class="info-panel">
-      <h1>Telecom Billing System</h1>
-      <p>Welcome to our intelligent billing assistant. This system helps users:</p>
+    <section class="info-panel" aria-labelledby="site-title">
+      <h1 id="site-title">Telecom Billing System</h1>
+      <p>Welcome to our intelligent billing assistant. This chatbot helps you:</p>
       <ul>
         <li>Check account balances</li>
         <li>View and download invoices</li>
         <li>Resolve billing disputes</li>
         <li>Get personalized plan recommendations</li>
       </ul>
-      <p>Start chatting with our AI assistant to get help instantly!</p>
+      <p>Start chatting with our AI assistant to get instant help!</p>
 
-      <img src="chatbot.jpg" alt="Chatbot Logo" class="chatbot-logo" />
+      <img src="chatbot.jpg" alt="Chatbot Illustration" class="chatbot-logo" />
     </section>
 
-    <!-- Chatbot Panel -->
+    <!-- Chatbot Section -->
     <section class="chat-popup show" id="chatPopup" aria-label="Chat window">
       <div class="chat-header">
         <h2>Chat with Us 💬</h2>
+        <button class="close-btn" id="closeChat" aria-label="Close chat window">&times;</button>
       </div>
 
-      <div id="chatbox">
+      <div id="chatbox" aria-live="polite" aria-atomic="false">
         <p class="botText"><span>Hello! 👋 How can I assist you with your telecom billing today?</span></p>
       </div>
 
       <div id="userInput">
-        <input id="textInput" type="text" placeholder="Type your message..." aria-label="User message input" />
+        <input 
+          id="textInput" 
+          type="text" 
+          placeholder="Type your message..." 
+          aria-label="Type your message to chatbot"
+        />
         <button id="buttonInput" aria-label="Send message">Send</button>
       </div>
     </section>
   </div>
 
-  <!-- Floating Toggle Button -->
+  <!-- Floating Chat Toggle Button -->
   <div class="chat-toggle" id="chatToggle" aria-label="Toggle chat window">💬</div>
 
   <script>
@@ -57,38 +63,45 @@
       const rawText = $("#textInput").val().trim();
       if (!rawText) return;
 
-      const userHtml = '<p class="userText"><span>' + rawText + '</span></p>';
+      const userHtml = `<p class="userText"><span>${rawText}</span></p>`;
       $("#textInput").val("");
       $("#chatbox").append(userHtml);
       $("#chatbox").scrollTop($("#chatbox")[0].scrollHeight);
 
       $.get("/get", { msg: rawText })
         .done(function(data) {
-          const botHtml = '<p class="botText"><span>' + data + '</span></p>';
+          const botHtml = `<p class="botText"><span>${data}</span></p>`;
           $("#chatbox").append(botHtml);
           $("#chatbox").scrollTop($("#chatbox")[0].scrollHeight);
         })
         .fail(function() {
-          const errorHtml = '<p class="botText"><span>Sorry, something went wrong. Please try again later.</span></p>';
+          const errorHtml = `<p class="botText"><span>⚠️ Sorry, something went wrong. Please try again later.</span></p>`;
           $("#chatbox").append(errorHtml);
           $("#chatbox").scrollTop($("#chatbox")[0].scrollHeight);
         });
     }
 
+    // Send on Enter
     $("#textInput").keypress(function(e) {
       if (e.which === 13) getBotResponse();
     });
 
-    $("#buttonInput").click(function() {
-      getBotResponse();
-    });
+    // Send on Button Click
+    $("#buttonInput").click(getBotResponse);
 
-    // Toggle Chat Popup
-    document.getElementById("chatToggle").addEventListener("click", function () {
-      const chatPopup = document.getElementById("chatPopup");
+    // Toggle Chat Visibility
+    const chatPopup = document.getElementById("chatPopup");
+    const chatToggle = document.getElementById("chatToggle");
+    const closeChat = document.getElementById("closeChat");
+
+    chatToggle.addEventListener("click", () => {
       chatPopup.classList.toggle("show");
     });
 
+    closeChat.addEventListener("click", () => {
+      chatPopup.classList.remove("show");
+    });
   </script>
+
 </body>
 </html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Telecom Billing Chatbot</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Info Section -->
+    <section class="info-panel">
+      <h1>Telecom Billing System</h1>
+      <p>Welcome to our intelligent billing assistant. This system helps users:</p>
+      <ul>
+        <li>Check account balances</li>
+        <li>View and download invoices</li>
+        <li>Resolve billing disputes</li>
+        <li>Get personalized plan recommendations</li>
+      </ul>
+      <p>Start chatting with our AI assistant to get help instantly!</p>
+
+      <img src="chatbot.jpg" alt="Chatbot Logo" class="chatbot-logo" />
+    </section>
+
+    <!-- Chatbot Panel -->
+    <div class="chat-popup show" id="chatPopup">
+      <div class="chat-header">
+        <h2>Chat with Us 💬</h2>
+        <button class="close-btn" id="closeChat">&times;</button>
+      </div>
+
+      <div id="chatbox">
+        <p class="botText"><span>Hello! 👋 How can I assist you with your telecom billing today?</span></p>
+      </div>
+
+      <div id="userInput">
+        <input id="textInput" type="text" placeholder="Type your message..." />
+        <button id="buttonInput">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function getBotResponse() {
+      const rawText = $("#textInput").val().trim();
+      if (!rawText) return;
+
+      const userHtml = '<p class="userText"><span>' + rawText + '</span></p>';
+      $("#textInput").val("");
+      $("#chatbox").append(userHtml);
+      $("#chatbox").scrollTop($("#chatbox")[0].scrollHeight);
+
+      $.get("/get", { msg: rawText })
+        .done(function(data) {
+          const botHtml = '<p class="botText"><span>' + data + '</span></p>';
+          $("#chatbox").append(botHtml);
+          $("#chatbox").scrollTop($("#chatbox")[0].scrollHeight);
+        })
+        .fail(function() {
+          const errorHtml = '<p class="botText"><span>Sorry, something went wrong. Please try again later.</span></p>';
+          $("#chatbox").append(errorHtml);
+          $("#chatbox").scrollTop($("#chatbox")[0].scrollHeight);
+        });
+    }
+
+    $("#textInput").keypress(function(e) {
+      if (e.which === 13) getBotResponse();
+    });
+
+    $("#buttonInput").click(function() {
+      getBotResponse();
+    });
+
+    // Close chat logic
+    const chatPopup = document.getElementById("chatPopup");
+    const closeChat = document.getElementById("closeChat");
+
+    closeChat.addEventListener("click", () => {
+      chatPopup.classList.remove("show");
+    });
+  </script>
+</body>
+</html>

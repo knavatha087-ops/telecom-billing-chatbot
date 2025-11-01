@@ -6,7 +6,7 @@
   <title>Telecom Billing Chatbot</title>
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="style.css" />
@@ -33,10 +33,9 @@
     </section>
 
     <!-- Chatbot Panel -->
-    <div class="chat-popup show" id="chatPopup">
+    <section class="chat-popup show" id="chatPopup" aria-label="Chat window">
       <div class="chat-header">
         <h2>Chat with Us 💬</h2>
-        <!-- Cross icon removed -->
       </div>
 
       <div id="chatbox">
@@ -44,11 +43,14 @@
       </div>
 
       <div id="userInput">
-        <input id="textInput" type="text" placeholder="Type your message..." />
-        <button id="buttonInput">Send</button>
+        <input id="textInput" type="text" placeholder="Type your message..." aria-label="User message input" />
+        <button id="buttonInput" aria-label="Send message">Send</button>
       </div>
-    </div>
+    </section>
   </div>
+
+  <!-- Floating Toggle Button -->
+  <div class="chat-toggle" id="chatToggle" aria-label="Toggle chat window">💬</div>
 
   <script>
     function getBotResponse() {
@@ -81,7 +83,12 @@
       getBotResponse();
     });
 
-    // Removed close button logic
+    // Toggle Chat Popup
+    document.getElementById("chatToggle").addEventListener("click", function () {
+      const chatPopup = document.getElementById("chatPopup");
+      chatPopup.classList.toggle("show");
+    });
+
   </script>
 </body>
 </html>
